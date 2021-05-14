@@ -20,7 +20,7 @@ const Demo = () => {
   const [favoriteColor, setFavoriteColor] = useState()
   const fetchData = useCallback(async () => {
     const token = await AuthUser.getIdToken()
-    const endpoint = getAbsoluteURL('/api/example')
+    const endpoint = getAbsoluteURL('/thing/api/example')
     const response = await fetch(endpoint, {
       method: 'GET',
       headers: {

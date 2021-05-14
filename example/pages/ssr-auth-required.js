@@ -43,7 +43,7 @@ export const getServerSideProps = withAuthUserTokenSSR({
 })(async ({ AuthUser, req }) => {
   // Optionally, get other props.
   const token = await AuthUser.getIdToken()
-  const endpoint = getAbsoluteURL('/api/example', req)
+  const endpoint = getAbsoluteURL('/thing/api/example', req)
   const response = await fetch(endpoint, {
     method: 'GET',
     headers: {
