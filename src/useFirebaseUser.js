@@ -5,6 +5,8 @@ import { getConfig } from 'src/config'
 import createAuthUser from 'src/createAuthUser'
 import { filterStandardClaims } from 'src/claims'
 
+let tokenId
+
 const defaultTokenChangedHandler = async (authUser) => {
   const { loginAPIEndpoint, logoutAPIEndpoint } = getConfig()
   let response
@@ -69,8 +71,11 @@ const useFirebaseUser = () => {
       // Get the user's claims:
       // https://firebase.google.com/docs/reference/js/firebase.auth.IDTokenResult
       const idTokenResult = await firebase.auth().currentUser.getIdTokenResult()
+      tokenId = idTokenResult.token
       const claims = filterStandardClaims(idTokenResult.claims)
       setCustomClaims(claims)
+    } else {
+      tokenId = undefined
     }
     setUser(firebaseUser)
     setInitialized(true)
@@ -89,5 +94,7 @@ const useFirebaseUser = () => {
     initialized,
   }
 }
+
+export const getIdToken = () => tokenId
 
 export default useFirebaseUser

@@ -5,6 +5,10 @@ import { getConfig } from 'src/config'
 // https://firebase.google.com/docs/auth/admin/errors
 const FIREBASE_ERROR_TOKEN_EXPIRED = 'auth/id-token-expired'
 
+// For `kid` errors for google cert rotation
+//   See https://github.com/gladly-team/next-firebase-auth/pull/125
+const FIREBASE_ERROR_ARGUMENT_ERROR = 'auth/argument-error'
+
 // If the FIREBASE_AUTH_EMULATOR_HOST variable is set, send the token request to the emulator
 const getTokenPrefix = () =>
   process.env.FIREBASE_AUTH_EMULATOR_HOST
@@ -60,7 +64,11 @@ export const verifyIdToken = async (token, refreshToken = null) => {
     firebaseUser = await admin.auth().verifyIdToken(token)
   } catch (e) {
     // If the user's ID token has expired, refresh it if possible.
-    if (refreshToken && e.code === FIREBASE_ERROR_TOKEN_EXPIRED) {
+    if (
+      refreshToken &&
+      (e.code === FIREBASE_ERROR_TOKEN_EXPIRED ||
+        e.code === FIREBASE_ERROR_ARGUMENT_ERROR)
+    ) {
       newToken = await refreshExpiredIdToken(refreshToken)
       firebaseUser = await admin.auth().verifyIdToken(newToken)
     } else {
