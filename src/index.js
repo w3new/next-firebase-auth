@@ -2,6 +2,7 @@
 import { setConfig } from 'src/config'
 import withAuthUserModule from 'src/withAuthUser'
 import useAuthUserModule from 'src/useAuthUser'
+import { getIdToken } from 'src/useFirebaseUser'
 import initFirebaseClientSDK from 'src/initFirebaseClientSDK'
 import { setDebugEnabled } from 'src/logDebug'
 import isClientSide from 'src/isClientSide'
@@ -47,6 +48,7 @@ const getFirebaseAdmin = () => {
 }
 export default {
   init,
+  getIdToken,
   withAuthUser,
   useAuthUser,
   withAuthUserSSR,
