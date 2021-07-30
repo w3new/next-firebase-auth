@@ -106,6 +106,8 @@ interface FirebaseAdminType extends firebaseAdmin.app.App {
   credential: firebaseAdmin.credential.Credential
 }
 
+export const getIdToken: () => string | undefined
+
 export const getFirebaseAdmin: () => FirebaseAdminType
 
 export const setAuthCookies: (
